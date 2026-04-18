@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu — Madame Monsieur · Ultra Lounge Supper Club</title>
+  <meta name="description" content="Explore the full food and cocktail menu at Madame Monsieur, Windsor's Ultra Lounge Supper Club in the heart of Walkerville.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cormorant+Infant:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --black:       #080808;
+      --obsidian:    #0f0e0d;
+      --charcoal:    #1a1815;
+      --gold:        #c9a96e;
+      --gold-light:  #e2c98a;
+      --gold-dim:    #8a6f42;
+      --cream:       #f0ead8;
+      --cream-dim:   #b8ae98;
+      --wine:        #5c1a28;
+      --wine-deep:   #380f18;
+      --white:       #faf6ee;
+
+      --ff-display:  'Cormorant Garamond', Georgia, serif;
+      --ff-body:     'Cormorant Infant', Georgia, serif;
+      --ff-script:   'Great Vibes', cursive;
+      --ff-sans:     'Jost', sans-serif;
+      --ease-silk:   cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: var(--ff-body);
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── CUSTOM CURSOR ──────────────────────────────────── */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.12s var(--ease-silk);
+      opacity: 0.6;
+    }
+
+    /* ─── NOISE OVERLAY ──────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9000;
+    }
+
+    /* ─── SCROLLBAR ──────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+    /* ─── UTILITY ─────────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-silk), transform 0.8s var(--ease-silk); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.26s; }
+    ::selection { background: rgba(201,169,110,0.2); color: var(--gold-light); }
+
+    /* ─── NAVIGATION ─────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 52px;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,169,110,0.1);
+      transition: padding 0.4s;
+    }
+    .nav-logo {
+      font-family: var(--ff-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: var(--gold-light);
+    }
+    .nav-links {
+      display: flex;
+      gap: 44px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--ff-sans);
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.4s var(--ease-silk);
+    }
+    .nav-links a:hover { color: var(--gold-light); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--gold-light); }
+    .nav-links a.active::after { transform: scaleX(1); }
+    .nav-reserve {
+      font-family: var(--ff-sans);
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold-light);
+      padding: 10px 22px;
+      transition: all 0.35s var(--ease-silk);
+    }
+    .nav-reserve:hover {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+    }
+
+    /* ─── PAGE HERO ──────────────────────────────────────── */
+    .page-hero {
+      position: relative;
+      padding: 180px 0 100px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .page-hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 50% 100%, rgba(92,26,40,0.45) 0%, transparent 70%),
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(30,20,10,0.5) 0%, transparent 60%),
+        linear-gradient(180deg, #0a0806 0%, #0d0608 100%);
+    }
+    .page-hero-topbar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+    }
+    .page-hero-content { position: relative; z-index: 2; }
+    .page-hero-eyebrow {
+      font-family: var(--ff-sans);
+      font-size: 0.62rem;
+      font-weight: 200;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      animation: fade-up 1s var(--ease-silk) 0.2s both;
+    }
+    .page-hero-script {
+      font-family: var(--ff-script);
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      color: var(--white);
+      line-height: 0.9;
+      margin-bottom: 20px;
+      animation: fade-up 1.2s var(--ease-silk) 0.4s both;
+    }
+    .page-hero-sub {
+      font-family: var(--ff-display);
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      animation: fade-up 1s var(--ease-silk) 0.6s both;
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── MENU NAV TABS ──────────────────────────────────── */
+    .menu-tabs-wrapper {
+      position: sticky;
+      top: 80px;
+      z-index: 100;
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(201,169,110,0.1);
+    }
+    .menu-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 52px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .menu-tabs::-webkit-scrollbar { display: none; }
+    .menu-tab {
+      font-family: var(--ff-sans);
+      font-size: 0.62rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      padding: 20px 28px;
+      border: none;
+      background: none;
+      cursor: none;
+      transition: color 0.3s;
+      white-space: nowrap;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .menu-tab::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.4s var(--ease-silk);
+    }
+    .menu-tab:hover { color: var(--gold-light); }
+    .menu-tab.active { color: var(--gold-light); }
+    .menu-tab.active::after { transform: scaleX(1); }
+
+    /* ─── MENU LAYOUT ────────────────────────────────────── */
+    .menu-page {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 52px;
+    }
+
+    /* ─── MENU CHAPTER ───────────────────────────────────── */
+    .menu-chapter {
+      padding: 100px 0;
+      border-bottom: 1px solid rgba(201,169,110,0.08);
+      position: relative;
+    }
+    .menu-chapter:last-child { border-bottom: none; }
+
+    .chapter-header {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 64px;
+    }
+    .chapter-script {
+      font-family: var(--ff-script);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      color: var(--gold);
+      opacity: 0.85;
+      line-height: 1;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .chapter-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .chapter-label {
+      font-family: var(--ff-sans);
+      font-size: 0.58rem;
+      font-weight: 200;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+    }
+    .chapter-title {
+      font-family: var(--ff-display);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+    .chapter-rule {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(201,169,110,0.2), transparent);
+    }
+
+    /* Sub-section (Red / White / Bubbles) */
+    .sub-section {
+      margin-bottom: 60px;
+    }
+    .sub-section:last-child { margin-bottom: 0; }
+    .sub-section-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .sub-section-title {
+      font-family: var(--ff-display);
+      font-size: 1.1rem;
+      font-weight: 500;
+      font-style: italic;
+      color: var(--gold-light);
+      white-space: nowrap;
+      letter-spacing: 0.06em;
+    }
+    .sub-rule {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(201,169,110,0.15), transparent);
+    }
+
+    /* ─── FOOD ITEMS (2-column grid) ─────────────────────── */
+    .items-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .items-grid.single-col {
+      grid-template-columns: 1fr;
+    }
+
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      padding: 28px 32px;
+      background: rgba(255,255,255,0.012);
+      border: 1px solid rgba(201,169,110,0.06);
+      transition: background 0.4s, border-color 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s var(--ease-silk);
+    }
+    .menu-item:hover {
+      background: rgba(201,169,110,0.035);
+      border-color: rgba(201,169,110,0.18);
+    }
+    .menu-item:hover::before { transform: scaleY(1); }
+
+    .item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .item-name {
+      font-family: var(--ff-display);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--white);
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+    }
+    .item-tag {
+      font-family: var(--ff-sans);
+      font-size: 0.5rem;
+      font-weight: 200;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      border: 1px solid rgba(201,169,110,0.25);
+      padding: 2px 7px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: 2px;
+    }
+    .item-price {
+      font-family: var(--ff-display);
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--gold);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .item-desc {
+      font-family: var(--ff-body);
+      font-size: 0.88rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream-dim);
+      line-height: 1.65;
+    }
+    .item-note {
+      font-family: var(--ff-sans);
+      font-size: 0.56rem;
+      font-weight: 200;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-top: 8px;
+    }
+
+    /* ─── COCKTAIL ITEMS (3-column) ─────────────────────── */
+    .cocktail-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .cocktail-item {
+      padding: 28px 28px;
+      background: rgba(255,255,255,0.012);
+      border: 1px solid rgba(201,169,110,0.06);
+      transition: background 0.4s, border-color 0.4s;
+      position: relative;
+    }
+    .cocktail-item::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.5s var(--ease-silk);
+    }
+    .cocktail-item:hover {
+      background: rgba(201,169,110,0.03);
+      border-color: rgba(201,169,110,0.16);
+    }
+    .cocktail-item:hover::after { transform: scaleX(1); }
+
+    .cocktail-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .cocktail-name {
+      font-family: var(--ff-display);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.2;
+    }
+    .cocktail-price {
+      font-family: var(--ff-display);
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .cocktail-vibe {
+      font-family: var(--ff-body);
+      font-size: 0.82rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--gold-dim);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .cocktail-desc {
+      font-family: var(--ff-body);
+      font-size: 0.84rem;
+      font-weight: 300;
+      color: var(--cream-dim);
+      line-height: 1.65;
+      font-style: italic;
+    }
+
+    /* ─── ZERO PROOF ─────────────────────────────────────── */
+    .zeroproof-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .simple-item {
+      padding: 22px 28px;
+      background: rgba(255,255,255,0.012);
+      border: 1px solid rgba(201,169,110,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: background 0.4s, border-color 0.4s;
+    }
+    .simple-item:hover {
+      background: rgba(201,169,110,0.025);
+      border-color: rgba(201,169,110,0.14);
+    }
+    .simple-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .simple-item-name {
+      font-family: var(--ff-display);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--white);
+    }
+    .simple-item-price {
+      font-family: var(--ff-display);
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .simple-item-desc {
+      font-family: var(--ff-body);
+      font-size: 0.82rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream-dim);
+      line-height: 1.5;
+    }
+
+    /* ─── WINE ───────────────────────────────────────────── */
+    .wine-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .wine-item {
+      padding: 24px 32px;
+      background: rgba(255,255,255,0.012);
+      border: 1px solid rgba(201,169,110,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      transition: background 0.4s, border-color 0.4s;
+    }
+    .wine-item:hover {
+      background: rgba(201,169,110,0.03);
+      border-color: rgba(201,169,110,0.16);
+    }
+    .wine-info { flex: 1; }
+    .wine-name {
+      font-family: var(--ff-display);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .wine-tag {
+      font-family: var(--ff-sans);
+      font-size: 0.5rem;
+      font-weight: 200;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+    }
+    .wine-prices {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+    .wine-price-line {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+    }
+    .wine-price-label {
+      font-family: var(--ff-sans);
+      font-size: 0.52rem;
+      font-weight: 200;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+    }
+    .wine-price-val {
+      font-family: var(--ff-display);
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--gold);
+    }
+
+    /* ─── SIGNATURE BANNER ───────────────────────────────── */
+    .sig-banner {
+      background: linear-gradient(135deg, rgba(92,26,40,0.35) 0%, rgba(56,15,24,0.2) 100%);
+      border: 1px solid rgba(201,169,110,0.15);
+      padding: 48px;
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+    }
+    .sig-banner::before, .sig-banner::after {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      border-color: var(--gold-dim);
+      border-style: solid;
+    }
+    .sig-banner::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .sig-banner::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+    .sig-banner p {
+      font-family: var(--ff-display);
+      font-size: 1.05rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream-dim);
+      line-height: 1.7;
+    }
+    .sig-banner .banner-title {
+      font-family: var(--ff-script);
+      font-size: 2.4rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: #050505;
+      border-top: 1px solid rgba(201,169,110,0.12);
+      padding: 60px 0 36px;
+    }
+    .footer-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 52px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-brand {
+      font-family: var(--ff-script);
+      font-size: 1.8rem;
+      color: var(--gold-dim);
+    }
+    .footer-info {
+      font-family: var(--ff-body);
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--cream-dim);
+      text-align: center;
+      line-height: 1.7;
+    }
+    .footer-info a { transition: color 0.3s; }
+    .footer-info a:hover { color: var(--gold-light); }
+    .footer-reserve {
+      font-family: var(--ff-sans);
+      font-size: 0.62rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold-light);
+      padding: 12px 24px;
+      transition: all 0.35s var(--ease-silk);
+    }
+    .footer-reserve:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+    .footer-copy {
+      width: 100%;
+      text-align: center;
+      padding-top: 36px;
+      border-top: 1px solid rgba(201,169,110,0.07);
+      font-family: var(--ff-sans);
+      font-size: 0.58rem;
+      font-weight: 200;
+      letter-spacing: 0.15em;
+      color: rgba(184,174,152,0.35);
+      margin-top: 24px;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 960px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .menu-page { padding: 0 24px; }
+      .menu-tabs { padding: 0 12px; }
+      .items-grid { grid-template-columns: 1fr; }
+      .cocktail-grid { grid-template-columns: 1fr 1fr; }
+      .zeroproof-grid { grid-template-columns: 1fr 1fr; }
+      .wine-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .cocktail-grid { grid-template-columns: 1fr; }
+      .zeroproof-grid { grid-template-columns: 1fr; }
+      .chapter-header { flex-wrap: wrap; }
+      .chapter-rule { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ─── NAV ───────────────────────────────────────────── -->
+  <nav>
+    <a href="index.html" class="nav-logo">Madame Monsieur</a>
+    <ul class="nav-links">
+      <li><a href="index.html#philosophy">Our Story</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="menu.html" class="active">Menu</a></li>
+      <li><a href="index.html#location">Location</a></li>
+    </ul>
+    <a href="tel:+15192545088" class="nav-reserve">Reserve</a>
+  </nav>
+
+  <!-- ─── PAGE HERO ──────────────────────────────────────── -->
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-topbar"></div>
+    <div class="page-hero-content">
+      <p class="page-hero-eyebrow">Walkerville, Windsor · Crafted with Intention</p>
+      <h1 class="page-hero-script">The Menu</h1>
+      <p class="page-hero-sub">Food &nbsp;·&nbsp; Cocktails &nbsp;·&nbsp; Wine</p>
+    </div>
+  </div>
+
+  <!-- ─── TAB NAV ────────────────────────────────────────── -->
+  <div class="menu-tabs-wrapper">
+    <div class="menu-tabs">
+      <button class="menu-tab active" data-target="food">Food</button>
+      <button class="menu-tab" data-target="cocktails-classic">Classic Cocktails</button>
+      <button class="menu-tab" data-target="cocktails-sig">Signature</button>
+      <button class="menu-tab" data-target="zero-proof">Zero-Proof</button>
+      <button class="menu-tab" data-target="wine">Wine</button>
+    </div>
+  </div>
+
+  <!-- ─── MENU CONTENT ───────────────────────────────────── -->
+  <main class="menu-page">
+
+    <!-- ══════════════════════════════════════════════════════
+         FOOD
+    ══════════════════════════════════════════════════════ -->
+    <div class="menu-chapter" id="food">
+
+      <!-- RAW BAR -->
+      <div style="margin-bottom: 72px;">
+        <div class="chapter-header reveal">
+          <div class="chapter-script">Raw</div>
+          <div class="chapter-title-group">
+            <span class="chapter-label">To Begin</span>
+            <h2 class="chapter-title">Raw Bar</h2>
+          </div>
+          <div class="chapter-rule"></div>
+        </div>
+        <div class="items-grid">
+          <div class="menu-item reveal">
+            <div class="item-top">
+              <span class="item-name">Shrimp Cocktail</span>
+              <span class="item-price">$14</span>
+            </div>
+            <p class="item-desc">Succulent wild-caught shrimp, delicately poached and chilled, paired with spiced tomato horseradish sauce and fresh lemon.</p>
+          </div>
+          <div class="menu-item reveal reveal-delay-1">
+            <div class="item-top">
+              <span class="item-name">Pearl Platter</span>
+              <span class="item-price">$28</span>
+            </div>
+            <p class="item-desc">Fresh P.E.I. shucked oysters (8) — served on ice with mignonette, cocktail sauce, and lemon.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHARED PLATES -->
+      <div>
+        <div class="chapter-header reveal">
+          <div class="chapter-script">Partagé</div>
+          <div class="chapter-title-group">
+            <span class="chapter-label">For the Table</span>
+            <h2 class="chapter-title">Shared Plates</h2>
+          </div>
+          <div class="chapter-rule"></div>
+        </div>
+        <div class="items-grid">
+          <div class="menu-item reveal">
+            <div class="item-top">
+              <span class="item-name">Truffle Fries</span>
+              <span class="item-price">$13</span>
+            </div>
+            <p class="item-desc">Crisp perfection, tossed in aromatic truffle oil and Parmesan, with a side of creamy garlic aioli.</p>
+          </div>
+          <div class="menu-item reveal reveal-delay-1">
+            <div class="item-top">
+              <span class="item-name">Honeycomb Ricotta</span>
+              <span class="item-price">$18</span>
+            </div>
+            <p class="item-desc">Lush whipped ricotta adorned with wildflower honeycomb and candied walnuts, paired with house-made crostini.</p>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-top">
+              <span class="item-name">Wagyu Gyoza</span>
+              <span class="item-price">$17</span>
+            </div>
+            <p class="item-desc">Delicate wagyu beef dumplings, perfectly seared and accompanied by our signature soy dipping sauce.</p>
+            <p class="item-note">✦ Vegetarian option available</p>
+          </div>
+          <div class="menu-item reveal reveal-delay-1">
+            <div class="item-top">
+              <span class="item-name">Chickpea Hummus</span>
+              <span class="item-price">$15</span>
+            </div>
+            <p class="item-desc">House-made chickpea hummus, garnished with olive oil and paprika, served with warm, freshly baked pita.</p>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-top">
+              <span class="item-name">Citrus Salad</span>
+              <span class="item-price">$17</span>
+            </div>
+            <p class="item-desc">Vibrant roasted beets and seasonal citrus, finished with our signature honey thyme vinaigrette garnished with crushed walnuts.</p>
+          </div>
+          <div class="menu-item reveal reveal-delay-1">
+            <div class="item-top">
+              <span class="item-name">Charcuterie Pour Deux</span>
+              <span class="item-price">$35</span>
+            </div>
+            <p class="item-desc">Handpicked cured meats and premium cheeses from the chef's selection, complemented by fig jam and a touch of hot honey.</p>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-top">
+              <span class="item-name">Rouge Velvet Rigatoni</span>
+              <span class="item-price">$19</span>
+            </div>
+            <p class="item-desc">Rigatoni in a silky, spicy rosso cream.</p>
+          </div>
+          <div class="menu-item reveal reveal-delay-1">
+            <div class="item-top">
+              <span class="item-name">Truffle Silk Purses</span>
+              <span class="item-price">$26</span>
+            </div>
+            <p class="item-desc">Soft pasta parcels filled with our decadent ricotta blend, finished with a warm beurre blanc drizzle.</p>
+          </div>
+          <div class="menu-item reveal">
+            <div class="item-top">
+              <span class="item-name">Med Kafta Skewers</span>
+              <span class="item-price">$25</span>
+            </div>
+            <p class="item-desc">Char-grilled beef kafta skewers seasoned with warm Middle-Eastern spices, served with silky house-made hummus and warm pita.</p>
+          </div>
+          <div class="menu-item reveal reveal-delay-1">
+            <div class="item-top">
+              <span class="item-name">Lamb Lollies</span>
+              <span class="item-price">$38</span>
+            </div>
+            <p class="item-desc">Succulent grilled New Zealand lamb lollipops, brushed with a rich balsamic glaze and paired with fresh cherry tomato garnish.</p>
+          </div>
+          <div class="menu-item reveal items-grid-full">
+            <div class="item-top">
+              <span class="item-name">Steak Frites</span>
+              <span class="item-price">$38</span>
+            </div>
+            <p class="item-desc">Grilled 8oz filet prepared to your preference, paired with truffle fries and roasted garlic aioli.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         CLASSIC COCKTAILS
+    ══════════════════════════════════════════════════════ -->
+    <div class="menu-chapter" id="cocktails-classic">
+      <div class="chapter-header reveal">
+        <div class="chapter-script">Classiques</div>
+        <div class="chapter-title-group">
+          <span class="chapter-label">Timeless Pours</span>
+          <h2 class="chapter-title">Classic Cocktails</h2>
+        </div>
+        <div class="chapter-rule"></div>
+      </div>
+      <div class="cocktail-grid">
+        <div class="cocktail-item reveal">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Midnight Vice</span>
+            <span class="cocktail-price">$15</span>
+          </div>
+          <p class="cocktail-vibe">An espresso martini that'll keep you dancing till dawn.</p>
+          <p class="cocktail-desc">Fresh chilled espresso, coffee liqueur, Irish cream, vanilla, and your choice of vodka or tequila.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-1">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Gold Fashioned</span>
+            <span class="cocktail-price">$16</span>
+          </div>
+          <p class="cocktail-vibe">The timeless Old Fashioned, elevated with Amarena cherry.</p>
+          <p class="cocktail-desc">Rye, Amarena Fabbri syrup, aromatic bitters.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-2">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Porn Star Martini</span>
+            <span class="cocktail-price">$18</span>
+          </div>
+          <p class="cocktail-vibe">The modern classic — exotic passionfruit, vanilla, & luxe vibes.</p>
+          <p class="cocktail-desc">Vanilla & passion vodka, passionfruit, lime, prosecco.</p>
+        </div>
+        <div class="cocktail-item reveal">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Lychee Moi</span>
+            <span class="cocktail-price">$16</span>
+          </div>
+          <p class="cocktail-vibe">The house take on a lychee martini — refined & bright.</p>
+          <p class="cocktail-desc">Vodka, St. Germain, lychee juice, lime.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-1">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Strawberry Blonde</span>
+            <span class="cocktail-price">$14</span>
+          </div>
+          <p class="cocktail-vibe">Strawberry lemon drop — sweet, tart, & effortlessly flirty.</p>
+          <p class="cocktail-desc">Vodka, orange liqueur, house strawberry syrup, lemon.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-2">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Hugo Spritz</span>
+            <span class="cocktail-price">$16</span>
+          </div>
+          <p class="cocktail-vibe">Euro summer in a glass — crisp, floral, & refreshing.</p>
+          <p class="cocktail-desc">St. Germain, mint, lime, sparkling water, prosecco.</p>
+        </div>
+        <div class="cocktail-item reveal">
+          <div class="cocktail-top">
+            <span class="cocktail-name">The Sidecar</span>
+            <span class="cocktail-price">$17</span>
+          </div>
+          <p class="cocktail-vibe">A cognac classic — refined and spirited with a smooth finish.</p>
+          <p class="cocktail-desc">Hennessey cognac, Cointreau, lemon.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-1">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Amaretto Sour</span>
+            <span class="cocktail-price">$15</span>
+          </div>
+          <p class="cocktail-vibe">Where luxury meets nostalgia — a balance of sour & sweet almond.</p>
+          <p class="cocktail-desc">Amaretto, fresh lemon & lime juice, simple syrup.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SIGNATURE CREATIONS
+    ══════════════════════════════════════════════════════ -->
+    <div class="menu-chapter" id="cocktails-sig">
+      <div class="chapter-header reveal">
+        <div class="chapter-script">Maison</div>
+        <div class="chapter-title-group">
+          <span class="chapter-label">Crafted In-House</span>
+          <h2 class="chapter-title">Signature Creations</h2>
+        </div>
+        <div class="chapter-rule"></div>
+      </div>
+
+      <div class="sig-banner reveal">
+        <p class="banner-title">Our Signatures</p>
+        <p>Each cocktail on this list was crafted to tell a story. Sip slowly — every detail was placed with intention, from the first aroma to the final drop.</p>
+      </div>
+
+      <div class="cocktail-grid">
+        <div class="cocktail-item reveal">
+          <div class="cocktail-top">
+            <span class="cocktail-name">The Madame</span>
+            <span class="cocktail-price">$17</span>
+          </div>
+          <p class="cocktail-vibe">The house muse — effervescent & unapologetically femme.</p>
+          <p class="cocktail-desc">Empress elderflower gin, SoHo liqueur, lemon & lychee juice, finished with prosecco.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-1">
+          <div class="cocktail-top">
+            <span class="cocktail-name">The Monsieur</span>
+            <span class="cocktail-price">$18</span>
+          </div>
+          <p class="cocktail-vibe">Strong & refined — spirit-forward with a smoky edge.</p>
+          <p class="cocktail-desc">Gin, St. Germain, lemon, rose water.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-2">
+          <div class="cocktail-top">
+            <span class="cocktail-name">La Vie en Rose</span>
+            <span class="cocktail-price">$15</span>
+          </div>
+          <p class="cocktail-vibe">See life through rose-coloured glasses — one sip at a time.</p>
+          <p class="cocktail-desc">Vanilla & passion vodka, passionfruit, lime, prosecco.</p>
+        </div>
+        <div class="cocktail-item reveal">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Matcha-Tini</span>
+            <span class="cocktail-price">$15</span>
+          </div>
+          <p class="cocktail-vibe">Espresso martini's matcha sister — creamy & dreamy.</p>
+          <p class="cocktail-desc">Chilled matcha, vanilla vodka, house-made vanilla syrup, oat milk.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-1">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Land of Milk & Honey</span>
+            <span class="cocktail-price">$17</span>
+          </div>
+          <p class="cocktail-vibe">Luxurious, velvety, and just the right amount of indulgence.</p>
+          <p class="cocktail-desc">Infused silky gin, vermouth, citrus bitters.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-2">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Amber Heat</span>
+            <span class="cocktail-price">$15</span>
+          </div>
+          <p class="cocktail-vibe">The charmer — a golden rum sour with a hint of heat.</p>
+          <p class="cocktail-desc">Tequila, pineapple, ginger, lime, firewater.</p>
+        </div>
+        <div class="cocktail-item reveal">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Part-Time Lover</span>
+            <span class="cocktail-price">$16</span>
+          </div>
+          <p class="cocktail-vibe">Flirty & fun — a little sweet, a little sour, always a good time.</p>
+          <p class="cocktail-desc">Vodka, Chambord, lemon & cranberry.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-1">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Old Money</span>
+            <span class="cocktail-price">$19</span>
+          </div>
+          <p class="cocktail-vibe">Opulent & timeless — smooth, rich & indulgent.</p>
+          <p class="cocktail-desc">Rye, cognac, amaretto, chocolate bitters.</p>
+        </div>
+        <div class="cocktail-item reveal reveal-delay-2">
+          <div class="cocktail-top">
+            <span class="cocktail-name">Valencia Sunset</span>
+            <span class="cocktail-price">$16</span>
+          </div>
+          <p class="cocktail-vibe">The feeling of a warm coastal sunset in a glass.</p>
+          <p class="cocktail-desc">Amaretto, orange liqueur, lemon & orange juice.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         ZERO-PROOF
+    ══════════════════════════════════════════════════════ -->
+    <div class="menu-chapter" id="zero-proof">
+      <div class="chapter-header reveal">
+        <div class="chapter-script">Sans</div>
+        <div class="chapter-title-group">
+          <span class="chapter-label">Non-Alcoholic</span>
+          <h2 class="chapter-title">Zero-Proof</h2>
+        </div>
+        <div class="chapter-rule"></div>
+      </div>
+
+      <!-- Crafted Zero-Proof -->
+      <div class="sub-section">
+        <div class="sub-section-header reveal">
+          <span class="sub-section-title">Crafted Sips</span>
+          <div class="sub-rule"></div>
+        </div>
+        <div class="zeroproof-grid">
+          <div class="cocktail-item reveal">
+            <div class="cocktail-top">
+              <span class="cocktail-name">Strawberry Nojito</span>
+              <span class="cocktail-price">$8</span>
+            </div>
+            <p class="cocktail-vibe">A virgin mojito with a strawberry twist.</p>
+            <p class="cocktail-desc">Fresh mint, house-made strawberry syrup, lime & club soda.</p>
+          </div>
+          <div class="cocktail-item reveal reveal-delay-1">
+            <div class="cocktail-top">
+              <span class="cocktail-name">Velvet Rouge</span>
+              <span class="cocktail-price">$6</span>
+            </div>
+            <p class="cocktail-vibe">For those in need of a fizzy fix — soda just got elevated.</p>
+            <p class="cocktail-desc">Lime, cherry syrup & cola over ice.</p>
+          </div>
+          <div class="cocktail-item reveal reveal-delay-2">
+            <div class="cocktail-top">
+              <span class="cocktail-name">Golden Hour</span>
+              <span class="cocktail-price">$9</span>
+            </div>
+            <p class="cocktail-vibe">Light, lively, and refreshing — just like a good sunset.</p>
+            <p class="cocktail-desc">Pineapple, lime, ginger, club soda.</p>
+          </div>
+          <div class="cocktail-item reveal">
+            <div class="cocktail-top">
+              <span class="cocktail-name">Blush Tonic</span>
+              <span class="cocktail-price">$8</span>
+            </div>
+            <p class="cocktail-vibe">Bright, bittersweet, and effortlessly balanced.</p>
+            <p class="cocktail-desc">Grapefruit juice, lemon, tonic water, pomegranate syrup.</p>
+          </div>
+          <div class="cocktail-item reveal reveal-delay-1">
+            <div class="cocktail-top">
+              <span class="cocktail-name">Bartender's Choice</span>
+              <span class="cocktail-price">$8</span>
+            </div>
+            <p class="cocktail-vibe">Allow us to craft something just for you.</p>
+            <p class="cocktail-desc">A bespoke creation made to your taste and mood.</p>
+          </div>
+          <div class="cocktail-item reveal reveal-delay-2">
+            <div class="cocktail-top">
+              <span class="cocktail-name">Iced Matcha</span>
+              <span class="cocktail-price">$8</span>
+            </div>
+            <p class="cocktail-vibe">House-made matcha with a splash of vanilla.</p>
+            <p class="cocktail-desc">Choice of oat or regular milk.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beverages -->
+      <div class="sub-section">
+        <div class="sub-section-header reveal">
+          <span class="sub-section-title">Beverages</span>
+          <div class="sub-rule"></div>
+        </div>
+        <div class="zeroproof-grid">
+          <div class="simple-item reveal">
+            <div class="simple-item-top">
+              <span class="simple-item-name">Juice</span>
+              <span class="simple-item-price">$4</span>
+            </div>
+            <span class="simple-item-desc">Orange · Pineapple · Mango · Peach · Grapefruit · Lemonade · Cranberry</span>
+          </div>
+          <div class="simple-item reveal reveal-delay-1">
+            <div class="simple-item-top">
+              <span class="simple-item-name">Ginger Beer</span>
+              <span class="simple-item-price">$5</span>
+            </div>
+          </div>
+          <div class="simple-item reveal reveal-delay-2">
+            <div class="simple-item-top">
+              <span class="simple-item-name">Pop</span>
+              <span class="simple-item-price">$4</span>
+            </div>
+            <span class="simple-item-desc">Pepsi · Diet Pepsi · Ginger Ale · 7UP · Red Rain · Soda · Tonic Water</span>
+          </div>
+          <div class="simple-item reveal">
+            <div class="simple-item-top">
+              <span class="simple-item-name">Red Bull</span>
+              <span class="simple-item-price">$6 &nbsp;<span style="font-family:var(--ff-sans);font-size:0.55rem;color:var(--gold-dim);font-weight:200;">/ 4 for $20</span></span>
+            </div>
+          </div>
+          <div class="simple-item reveal reveal-delay-1">
+            <div class="simple-item-top">
+              <span class="simple-item-name">Bottled Water</span>
+              <span class="simple-item-price">$3</span>
+            </div>
+          </div>
+          <div class="simple-item reveal reveal-delay-2">
+            <div class="simple-item-top">
+              <span class="simple-item-name">San Benedetto</span>
+              <span class="simple-item-price">$7</span>
+            </div>
+            <span class="simple-item-desc">Natural Spring Water</span>
+          </div>
+          <div class="simple-item reveal">
+            <div class="simple-item-top">
+              <span class="simple-item-name">Perrier</span>
+              <span class="simple-item-price">$7</span>
+            </div>
+            <span class="simple-item-desc">Sparkling Water</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         WINE
+    ══════════════════════════════════════════════════════ -->
+    <div class="menu-chapter" id="wine">
+      <div class="chapter-header reveal">
+        <div class="chapter-script">Vins</div>
+        <div class="chapter-title-group">
+          <span class="chapter-label">Curated Cellar</span>
+          <h2 class="chapter-title">Wine</h2>
+        </div>
+        <div class="chapter-rule"></div>
+      </div>
+
+      <!-- RED -->
+      <div class="sub-section">
+        <div class="sub-section-header reveal">
+          <span class="sub-section-title">Red</span>
+          <div class="sub-rule"></div>
+        </div>
+        <div class="wine-grid">
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">Casillero del Diablo Cabernet Sauvignon</p>
+              <p class="wine-tag">Cabernet Sauvignon</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Glass</span><span class="wine-price-val">$11</span></div>
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$50</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Wolf Blass Cabernet Sauvignon</p>
+              <p class="wine-tag">Cabernet Sauvignon</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Glass</span><span class="wine-price-val">$14</span></div>
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$40</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">Caymus Cabernet Sauvignon</p>
+              <p class="wine-tag">Cabernet Sauvignon</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$195</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Wayne Gretzky Baco Noir</p>
+              <p class="wine-tag">Baco Noir</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Glass</span><span class="wine-price-val">$12</span></div>
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$38</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">Belle Glos Pinot Noir</p>
+              <p class="wine-tag">Pinot Noir</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$120</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Bread & Butter Merlot</p>
+              <p class="wine-tag">Merlot</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$50</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">Tommasi Ripasso Valpolicella</p>
+              <p class="wine-tag">Ripasso · Valpolicella</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$52</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Tarapacá de-Alcoholized Sauvignon Blanc</p>
+              <p class="wine-tag">Zero-Proof</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$24</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHITE -->
+      <div class="sub-section">
+        <div class="sub-section-header reveal">
+          <span class="sub-section-title">White</span>
+          <div class="sub-rule"></div>
+        </div>
+        <div class="wine-grid">
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">One Pound per Acre Chardonnay</p>
+              <p class="wine-tag">Chardonnay</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Glass</span><span class="wine-price-val">$11</span></div>
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$38</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Louis Jadot Bourguignons Chardonnay</p>
+              <p class="wine-tag">Chardonnay · Burgundy</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$72</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">Josh Chardonnay</p>
+              <p class="wine-tag">Chardonnay</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$52</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Stoneleigh Sauvignon Blanc</p>
+              <p class="wine-tag">Sauvignon Blanc</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Glass</span><span class="wine-price-val">$12</span></div>
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$48</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">Misty Cove Sauvignon Blanc</p>
+              <p class="wine-tag">Sauvignon Blanc</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Glass</span><span class="wine-price-val">$14</span></div>
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$54</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Kim Crawford Sauvignon Blanc</p>
+              <p class="wine-tag">Sauvignon Blanc</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$50</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">Salva Terra Pinot Grigio</p>
+              <p class="wine-tag">Pinot Grigio</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Glass</span><span class="wine-price-val">$12</span></div>
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$48</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Santa Margherita Pinot Grigio</p>
+              <p class="wine-tag">Pinot Grigio</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$48</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">Folonari Pinot Grigio</p>
+              <p class="wine-tag">Pinot Grigio</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Glass</span><span class="wine-price-val">$11</span></div>
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$38</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Tarapacá de-Alcoholized Sauvignon Blanc</p>
+              <p class="wine-tag">Zero-Proof</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$24</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BUBBLES -->
+      <div class="sub-section">
+        <div class="sub-section-header reveal">
+          <span class="sub-section-title">Bubbles</span>
+          <div class="sub-rule"></div>
+        </div>
+        <div class="wine-grid">
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">Gérard Bertrand Côte des Rosé</p>
+              <p class="wine-tag">Rosé</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$44</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Batasiolo Moscato</p>
+              <p class="wine-tag">Moscato</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Glass</span><span class="wine-price-val">$14</span></div>
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$54</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal">
+            <div class="wine-info">
+              <p class="wine-name">Mionetto Prosecco</p>
+              <p class="wine-tag">Prosecco</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Glass</span><span class="wine-price-val">$12</span></div>
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$44</span></div>
+            </div>
+          </div>
+          <div class="wine-item reveal reveal-delay-1">
+            <div class="wine-info">
+              <p class="wine-name">Bottega Prosecco</p>
+              <p class="wine-tag">Prosecco</p>
+            </div>
+            <div class="wine-prices">
+              <div class="wine-price-line"><span class="wine-price-label">Bottle</span><span class="wine-price-val">$60</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ─── FOOTER ─────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">Madame Monsieur</div>
+      <div class="footer-info">
+        1799 Wyandotte St E, Windsor, ON &nbsp;·&nbsp; <a href="tel:+15192545088">(519) 254-5088</a><br>
+        Wednesday – Sunday &nbsp;·&nbsp; 5pm till Midnight
+      </div>
+      <a href="tel:+15192545088" class="footer-reserve">Reserve a Table</a>
+      <p class="footer-copy">© 2025 Madame Monsieur. All rights reserved. Menu items and prices subject to change.</p>
+    </div>
+  </footer>
+
+  <!-- ─── SCRIPTS ─────────────────────────────────────────── -->
+  <script>
+    /* Custom cursor */
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursorRing');
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+    (function animRing() {
+      rx += (mx - rx) * 0.14;
+      ry += (my - ry) * 0.14;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animRing);
+    })();
+    document.querySelectorAll('a, button, .menu-item, .cocktail-item, .wine-item').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width  = '18px';
+        cursor.style.height = '18px';
+        ring.style.width    = '52px';
+        ring.style.height   = '52px';
+        ring.style.opacity  = '0.35';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width  = '10px';
+        cursor.style.height = '10px';
+        ring.style.width    = '36px';
+        ring.style.height   = '36px';
+        ring.style.opacity  = '0.6';
+      });
+    });
+
+    /* Tab navigation */
+    const tabs = document.querySelectorAll('.menu-tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const target = document.getElementById(tab.dataset.target);
+        if (target) {
+          const offset = target.getBoundingClientRect().top + window.scrollY - 140;
+          window.scrollTo({ top: offset, behavior: 'smooth' });
+        }
+      });
+    });
+
+    /* Highlight active tab on scroll */
+    const chapters = Array.from(document.querySelectorAll('.menu-chapter'));
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY + 200;
+      let current = chapters[0].id;
+      chapters.forEach(ch => {
+        if (ch.getBoundingClientRect().top + window.scrollY - 160 <= scrollY) {
+          current = ch.id;
+        }
+      });
+      tabs.forEach(t => {
+        t.classList.toggle('active', t.dataset.target === current);
+      });
+    }, { passive: true });
+
+    /* Reveal on scroll */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
