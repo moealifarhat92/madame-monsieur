@@ -1123,21 +1123,250 @@
       color: rgba(201,169,110,0.25);
     }
 
-    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    /* ─── HAMBURGER & MOBILE MENU ────────────────────────── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      z-index: 700;
+      flex-shrink: 0;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 26px; height: 1px;
+      background: var(--gold);
+      transition: all 0.38s var(--ease-silk);
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: rgba(6,5,4,0.97);
+      backdrop-filter: blur(24px);
+      z-index: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 44px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s var(--ease-silk);
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+
+    .mobile-menu-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+    .mobile-menu-links a {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 7vw, 3rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream-dim);
+      letter-spacing: 0.04em;
+      transition: color 0.3s;
+    }
+    .mobile-menu-links a:hover { color: var(--gold-light); }
+
+    .mobile-menu-reserve {
+      font-family: var(--ff-sans);
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold-light);
+      padding: 14px 40px;
+      transition: all 0.35s var(--ease-silk);
+    }
+    .mobile-menu-reserve:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+    .mobile-menu-info {
+      font-family: var(--ff-body);
+      font-size: 0.9rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream-dim);
+      text-align: center;
+      line-height: 1.9;
+      opacity: 0.7;
+    }
+    .mobile-menu-divider {
+      width: 40px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    }
+
+    /* ─── TOUCH DEVICES: disable custom cursor ───────────── */
+    @media (hover: none) and (pointer: coarse) {
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none !important; }
+      .exp-card { cursor: pointer; }
+    }
+
+    /* ─── 1280px: Large Laptop ────────────────────────────── */
+    @media (max-width: 1280px) {
+      .philosophy-grid { gap: 64px; }
+      .menu-layout { gap: 64px; }
+      .footer-top { gap: 52px; }
+      .location-grid { gap: 60px; }
+    }
+
+    /* ─── 1024px: Laptop / Tablet Landscape ──────────────── */
+    @media (max-width: 1024px) {
+      nav { padding: 22px 36px; }
+      nav.scrolled { padding: 16px 36px; }
+      .nav-links { gap: 28px; }
+      .section-inner { padding: 0 36px; }
+      #philosophy, #experience, #menu-highlight,
+      #reservations, #location { padding: 100px 0; }
+      .philosophy-grid { gap: 48px; }
+      .experience-cards { gap: 2px; }
+      .exp-card { aspect-ratio: 2/3; }
+      .menu-visual { height: 460px; }
+      .menu-layout { gap: 52px; }
+      .location-grid { gap: 48px; }
+      .location-map-frame { height: 420px; }
+      .footer-top { gap: 40px; }
+      .footer-inner { padding: 0 36px; }
+      .reservations-inner { padding: 0 36px; }
+    }
+
+    /* ─── 900px: Tablet Portrait ─────────────────────────── */
     @media (max-width: 900px) {
-      nav { padding: 22px 28px; }
-      nav.scrolled { padding: 16px 28px; }
+      /* Nav */
+      nav { padding: 20px 28px; }
+      nav.scrolled { padding: 15px 28px; }
       .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .hero-corner-tl, .hero-corner-tr,
+      .hero-corner-bl, .hero-corner-br { display: none; }
+
+      /* Sections */
       .section-inner { padding: 0 28px; }
-      .philosophy-grid { grid-template-columns: 1fr; gap: 60px; }
+      #philosophy, #experience, #menu-highlight,
+      #reservations, #location { padding: 80px 0; }
+      .reservations-inner { padding: 0 28px; }
+
+      /* Philosophy */
+      .philosophy-grid { grid-template-columns: 1fr; gap: 52px; }
+      .philosophy-right { gap: 20px; }
+      .philosophy-body { font-size: 1.05rem; }
+
+      /* Experience */
       .experience-cards { grid-template-columns: 1fr; }
-      .exp-card { aspect-ratio: 16/9; }
-      .menu-layout { grid-template-columns: 1fr; gap: 60px; }
-      .menu-visual { height: 360px; }
-      .location-grid { grid-template-columns: 1fr; gap: 60px; }
-      .footer-top { grid-template-columns: 1fr; gap: 48px; }
-      .footer-bottom { flex-direction: column; gap: 16px; }
-      .hero-corner-tl, .hero-corner-tr, .hero-corner-bl, .hero-corner-br { display: none; }
+      .exp-card { aspect-ratio: 16/9; min-height: 260px; }
+      /* Show desc on non-hover devices */
+      .exp-card-desc { opacity: 1; transform: none; }
+      .exp-card-border { border-color: rgba(201,169,110,0.12); }
+
+      /* Menu section */
+      .menu-layout { grid-template-columns: 1fr; gap: 48px; }
+      .menu-visual { height: 300px; }
+      .menu-badge { width: 80px; height: 80px; bottom: -12px; right: -12px; }
+      .menu-badge span:first-child { font-size: 1.1rem; }
+
+      /* Location */
+      .location-grid { grid-template-columns: 1fr; gap: 44px; }
+      .location-map-frame { height: 340px; }
+
+      /* Footer */
+      .footer-inner { padding: 0 28px; }
+      .footer-top { grid-template-columns: 1fr; gap: 36px; margin-bottom: 40px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .footer-brand p { max-width: 100%; }
+
+      /* Hours */
+      .hours-block { padding: 36px 28px; margin-top: 40px; }
+    }
+
+    /* ─── 640px: Large Mobile ─────────────────────────────── */
+    @media (max-width: 640px) {
+      nav { padding: 18px 20px; }
+      nav.scrolled { padding: 14px 20px; }
+      .nav-logo { font-size: 1.15rem; letter-spacing: 0.1em; }
+      .nav-reserve { display: none; }
+      .section-inner { padding: 0 20px; }
+      .reservations-inner { padding: 0 20px; }
+      .footer-inner { padding: 0 20px; }
+
+      #philosophy, #experience, #menu-highlight,
+      #reservations, #location { padding: 64px 0; }
+
+      /* Hero */
+      .hero-eyebrow { letter-spacing: 0.22em; margin-bottom: 16px; }
+      .hero-tagline { margin-bottom: 36px; }
+      .hero-cta-group { flex-direction: column; align-items: center; gap: 14px; }
+      .btn-primary, .btn-ghost { width: 100%; max-width: 290px; text-align: center; padding: 15px 24px; }
+      .hero-sub-name { letter-spacing: 0.22em; }
+      .hero-scroll-hint { bottom: 24px; }
+
+      /* Philosophy */
+      .philosophy-grid { gap: 40px; }
+      .philosophy-quote-mark { font-size: 5rem; }
+      .pillar { padding: 22px 20px; gap: 18px; }
+      .pillar-num { font-size: 2rem; }
+
+      /* Experience */
+      .exp-card { aspect-ratio: 4/3; min-height: 240px; }
+      .exp-card-content { padding: 28px 22px; }
+      .exp-card-title { font-size: 1.4rem; }
+      .experience-header { margin-bottom: 48px; }
+
+      /* Menu */
+      .menu-visual { height: 220px; }
+      .menu-card-main { padding: 28px 24px; }
+      .menu-card-main .script-large { font-size: 3rem; }
+      .menu-card-main .menu-card-text { font-size: 0.88rem; }
+      .menu-badge { display: none; }
+      .menu-body { font-size: 1rem; }
+      .menu-features { gap: 12px; margin-bottom: 36px; }
+
+      /* Reservations */
+      .reservations-watermark { font-size: clamp(5rem, 20vw, 9rem); }
+      .hours-block { padding: 28px 20px; margin-top: 36px; }
+      .hours-days { font-size: 1.1rem; }
+      .hours-time { font-size: 1.9rem; }
+      .hours-note { font-size: 0.9rem; }
+      .reservations-cta { flex-direction: column; align-items: center; gap: 14px; }
+      .reservations-cta .btn-primary,
+      .reservations-cta .btn-ghost { width: 100%; max-width: 290px; text-align: center; }
+      .phone-link { font-size: 1.1rem; }
+
+      /* Location */
+      .location-map-frame { height: 280px; }
+      .location-social { flex-wrap: wrap; gap: 12px; }
+
+      /* Footer */
+      .footer-top { padding-bottom: 0; }
+      footer { padding: 60px 0 32px; }
+    }
+
+    /* ─── 380px: Small Mobile ─────────────────────────────── */
+    @media (max-width: 380px) {
+      .nav-logo { font-size: 1rem; letter-spacing: 0.08em; }
+      .hero-eyebrow { letter-spacing: 0.14em; font-size: 0.55rem; }
+      .pillar { padding: 18px 16px; gap: 14px; }
+      .exp-card { aspect-ratio: 1/1; }
+      .hours-block { padding: 24px 16px; }
+      .section-inner { padding: 0 16px; }
+      .reservations-inner { padding: 0 16px; }
+      .footer-inner { padding: 0 16px; }
     }
 
     /* ─── SELECTION ──────────────────────────────────────── */
@@ -1151,16 +1380,32 @@
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
 
+  <!-- ─── MOBILE MENU OVERLAY ────────────────────────────── -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <ul class="mobile-menu-links">
+      <li><a href="#philosophy">Our Story</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="#location">Location</a></li>
+    </ul>
+    <div class="mobile-menu-divider"></div>
+    <a href="tel:+15192545088" class="mobile-menu-reserve">Reserve a Table</a>
+    <p class="mobile-menu-info">1799 Wyandotte St E, Windsor<br>(519) 254-5088</p>
+  </div>
+
   <!-- ─── NAVIGATION ─────────────────────────────────────── -->
   <nav id="navbar">
     <div class="nav-logo">Madame Monsieur</div>
     <ul class="nav-links">
-      <li><a href="index.html#philosophy">Our Story</a></li>
-      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="#philosophy">Our Story</a></li>
+      <li><a href="#experience">Experience</a></li>
       <li><a href="menu.html">Menu</a></li>
-      <li><a href="index.html#location">Location</a></li>
+      <li><a href="#location">Location</a></li>
     </ul>
     <a href="tel:+15192545088" class="nav-reserve">Reserve</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <!-- ─── HERO ───────────────────────────────────────────── -->
@@ -1474,48 +1719,76 @@
 
   <!-- ─── SCRIPTS ─────────────────────────────────────────── -->
   <script>
-    /* Custom cursor */
+    /* ── Touch detection: disable custom cursor ── */
+    const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+    /* Custom cursor (desktop only) */
     const cursor = document.getElementById('cursor');
     const ring   = document.getElementById('cursorRing');
     let mx = -100, my = -100, rx = -100, ry = -100;
 
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx + 'px';
-      cursor.style.top  = my + 'px';
-    });
-
-    // Ring follows with slight lag
-    (function animRing() {
-      rx += (mx - rx) * 0.14;
-      ry += (my - ry) *.14;
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
-      requestAnimationFrame(animRing);
-    })();
-
-    document.querySelectorAll('a, button, .pillar, .exp-card').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.width  = '18px';
-        cursor.style.height = '18px';
-        ring.style.width    = '56px';
-        ring.style.height   = '56px';
-        ring.style.opacity  = '0.4';
+    if (!isTouch) {
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        cursor.style.left = mx + 'px';
+        cursor.style.top  = my + 'px';
       });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.width  = '10px';
-        cursor.style.height = '10px';
-        ring.style.width    = '36px';
-        ring.style.height   = '36px';
-        ring.style.opacity  = '0.6';
+      (function animRing() {
+        rx += (mx - rx) * 0.14;
+        ry += (my - ry) * 0.14;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(animRing);
+      })();
+      document.querySelectorAll('a, button, .pillar, .exp-card').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursor.style.width  = '18px';
+          cursor.style.height = '18px';
+          ring.style.width    = '56px';
+          ring.style.height   = '56px';
+          ring.style.opacity  = '0.4';
+        });
+        el.addEventListener('mouseleave', () => {
+          cursor.style.width  = '10px';
+          cursor.style.height = '10px';
+          ring.style.width    = '36px';
+          ring.style.height   = '36px';
+          ring.style.opacity  = '0.6';
+        });
       });
-    });
+    }
 
     /* Navbar scroll */
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
+
+    /* Hamburger menu */
+    const hamburger   = document.getElementById('hamburger');
+    const mobileMenu  = document.getElementById('mobileMenu');
+
+    function toggleMenu(open) {
+      hamburger.classList.toggle('open', open);
+      mobileMenu.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+      mobileMenu.setAttribute('aria-hidden', !open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    hamburger.addEventListener('click', () => {
+      toggleMenu(!hamburger.classList.contains('open'));
+    });
+
+    /* Close menu on link click */
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => toggleMenu(false));
+    });
+
+    /* Close on Escape */
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') toggleMenu(false);
+    });
 
     /* Reveal on scroll */
     const observer = new IntersectionObserver(entries => {
@@ -1525,7 +1798,7 @@
           observer.unobserve(e.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
